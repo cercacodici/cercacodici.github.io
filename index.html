@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src data:; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Codici ICD-10-IM e CIPI</title>
+<meta name="description" content="Ricerca dei codici ICD-10-IM (diagnosi) e CIPI (procedure) dagli elenchi ufficiali del Ministero della Salute, versioni di sperimentazione valide fino al 31/12/2026.">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="brand">ICD-10-IM · CIPI</span>
+    <div class="theme" role="group" aria-label="Aspetto della pagina">
+      <button type="button" id="t-light" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><span class="t">Giorno</span></button>
+      <button type="button" id="t-dark" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span class="t">Notte</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+  <section class="hero wrap">
+    <h1>ICD-10-IM<span class="dot">·</span>CIPI</h1>
+    <p>Ricerca codici</p>
+  </section>
+
+  <section class="wrap">
+    <form class="search" id="form" role="search" autocomplete="off">
+      <fieldset class="kinds">
+        <legend>Tipo di ricerca</legend>
+        <label class="kind"><input type="radio" name="kind" id="k-dx" value="dx" checked><span>Diagnosi</span></label>
+        <label class="kind"><input type="radio" name="kind" id="k-px" value="px"><span>Procedura</span></label>
+      </fieldset>
+      <div class="row2">
+        <div class="field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Codice o descrizione" aria-label="Codice o descrizione" enterkeyhint="search" spellcheck="false" maxlength="80">
+          <button class="clear" id="clear" type="button" aria-label="Cancella la ricerca" hidden>×</button>
+        </div>
+        <button class="btn" type="submit" aria-label="Cerca"><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="bt">Cerca</span></button>
+      </div>
+      <p class="hint">Digita almeno 3 caratteri. Puoi cercare anche con il vecchio codice ICD-9-CM. Non inserire dati dei pazienti.<span class="tot" id="status">Caricamento degli elenchi ufficiali…</span></p>
+    </form>
+  </section>
+
+  <section class="results wrap" id="results" hidden aria-live="polite">
+    <div class="res-head">
+      <span class="count" id="count">0</span>
+      <span class="count-lab" id="countLab">voci trovate</span>
+      <span class="count-sub" id="countSub"></span>
+    </div>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th scope="col">Codice</th><th scope="col">Descrizione</th><th scope="col">ICD-9-CM</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <button class="more" id="more" type="button" hidden>Mostra altri risultati</button>
+  </section>
+
+  <section class="info wrap" id="info">
+    <h2>Informazioni</h2>
+
+    <p class="notice" id="avviso"><strong>Avviso.</strong> Strumento non ufficiale, non affiliato al Ministero della Salute. I codici vanno sempre verificati sugli elenchi ufficiali prima dell'inserimento. L'autore non risponde di eventuali errori di codifica.</p>
+
+    <h3>Come si cerca</h3>
+    <p>Scegli Diagnosi o Procedura, poi scrivi un codice (con o senza punto, anche solo l'inizio, per esempio <span class="code code-inline">O03</span> o <span class="code code-inline">88.78</span>) oppure una o più parole della descrizione. Puoi cercare anche con il vecchio codice ICD-9-CM. I risultati sono ordinati per codice, in ordine crescente. Tocca Copia per copiare un codice. Le voci con l'indicazione "note" si aprono con un tocco e mostrano le note ufficiali del codice: inclusioni, esclusioni e indicazioni di codifica.</p>
+
+    <h3>Cosa contiene</h3>
+    <p>Diagnosi: tutti i codici terminali dell'elenco sistematico ICD-10-IM, versione Gamma 2.1. Procedure: tutti i codici CIPI codificanti, versione Gamma 2.0. Descrizioni, note e transcodifiche ICD-9-CM sono riportate come nei file ufficiali.</p>
+    <p>Nei titoli delle diagnosi, (+) e (*) sono i simboli ICD-10 del sistema daga-asterisco: il codice con (*) descrive la manifestazione e non si usa da solo, ma insieme al codice con (+) della malattia di base. "(+ possibile)" indica un codice che può fare da daga.</p>
+
+    <h3>Fonti</h3>
+    <p class="src">Ministero della Salute e Regione Autonoma Friuli Venezia Giulia, Elenco sistematico ICD-10-IM, versione gamma, 2.1 - Dicembre 2025, con transcodifica in ICD-9-CM (senza capitolo XX). Licenza: CC BY-NC-ND 4.0.</p>
+    <p class="src">PROTOTIPO CIPI - v. GAMMA, 2.0 - Dicembre 2025. @ Ministero della Salute - Dipartimento della programmazione, dei dispositivi medici, del farmaco e delle politiche in favore del Servizio sanitario nazionale. Direzione generale della programmazione e dell'edilizia sanitaria, 2025. Tutti i diritti riservati. Il contenuto del presente documento è di proprietà esclusiva del Ministero della Salute ed è distribuito con licenza CC BY-NC-ND 4.0.</p>
+    <p class="src">File scaricati dalla pagina del <a href="https://www.salute.gov.it/new/it/tema/assistenza-ospedaliera-sdo/il-progetto-nsis-class/" target="_blank" rel="noopener noreferrer">progetto NSIS-CLASS</a> del Ministero della Salute.</p>
+  </section>
+
+  <section class="legal wrap" id="legale">
+    <div class="info info-flat"><h2>Note legali</h2></div>
+
+    <details id="termini">
+      <summary>Termini d'uso e limitazione di responsabilità</summary>
+      <div class="body">
+        <p>Questa pagina è uno strumento gratuito di consultazione, senza scopo di lucro, pensato per facilitare la ricerca dei codici negli elenchi pubblicati dal Ministero della Salute.</p>
+        <ul>
+          <li>Non è un servizio ufficiale e non è affiliata, approvata o sostenuta dal Ministero della Salute, dalla Regione Autonoma Friuli Venezia Giulia o da altri enti.</li>
+          <li>I contenuti hanno solo valore informativo. Non sostituiscono gli elenchi ufficiali, le indicazioni della propria struttura o il giudizio professionale. Ogni codice va verificato sulla fonte ufficiale prima dell'uso.</li>
+          <li>La pagina non fornisce diagnosi né indicazioni cliniche e non va usata per decisioni sulla cura dei pazienti.</li>
+          <li>I dati sono riportati senza garanzia di completezza, aggiornamento o idoneità a uno scopo specifico. Nei limiti consentiti dalla legge, l'autore non risponde di danni derivanti dall'uso della pagina o da errori di codifica.</li>
+          <li>Gli elenchi sono versioni di sperimentazione che il Ministero può modificare. La pagina riporta le versioni indicate nella sezione Fonti.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="privacy">
+      <summary>Informativa sulla privacy</summary>
+      <div class="body">
+        <ul>
+          <li>La ricerca avviene interamente nel browser: quello che scrivi nella barra non viene salvato né inviato all'autore o a terzi.</li>
+          <li>La pagina non ha moduli, registrazione, account, pubblicità, strumenti di statistica o di profilazione, e non carica contenuti da siti terzi.</li>
+          <li>L'autore della pagina non raccoglie né tratta dati personali dei visitatori.</li>
+          <li>La pagina è ospitata su GitHub Pages (GitHub, Inc.). Come accade per qualunque sito, il fornitore che ospita la pagina riceve i dati tecnici necessari a trasmetterla (per esempio l'indirizzo IP) e li tratta secondo la propria <a href="https://docs.github.com/it/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">informativa sulla privacy</a>.</li>
+          <li>Non inserire nella barra di ricerca nomi, dati o informazioni cliniche dei pazienti: la pagina serve solo a cercare codici.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="cookie">
+      <summary>Cookie e memoria del browser</summary>
+      <div class="body">
+        <p>La pagina non usa cookie di profilazione né di statistica. Salva soltanto nella memoria del tuo browser (localStorage) due preferenze tecniche: il tipo di ricerca scelto (Diagnosi o Procedura) e il tema Giorno o Notte. Questi dati restano sul tuo dispositivo, non vengono inviati a nessuno e servono solo a ricordare le tue scelte. Puoi cancellarli in qualsiasi momento dalle impostazioni del browser. Trattandosi di strumenti tecnici, non è richiesto il consenso.</p>
+      </div>
+    </details>
+
+    <details id="licenza">
+      <summary>Licenza, diritti e marchi</summary>
+      <div class="body">
+        <ul>
+          <li>Gli elenchi ICD-10-IM e CIPI sono di proprietà del Ministero della Salute (e, per ICD-10-IM, della Regione Autonoma Friuli Venezia Giulia) e sono distribuiti con licenza <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it" target="_blank" rel="noopener noreferrer">Creative Commons BY-NC-ND 4.0</a>.</li>
+          <li>Codici, titoli, note e transcodifiche sono riprodotti senza modifiche, con l'attribuzione indicata nei file ufficiali, e solo per uso non commerciale. Per facilitare la lettura sono stati tolti solo gli spazi vuoti all'inizio e alla fine dei testi.</li>
+          <li>La pagina non usa loghi, stemmi o segni distintivi del Ministero o di altri enti. I loro nomi compaiono solo per citare la fonte.</li>
+          <li>Se sei titolare di diritti sui contenuti e ritieni che la pagina debba essere modificata o rimossa, la pagina verrà aggiornata o tolta su richiesta.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="sicurezza">
+      <summary>Sicurezza</summary>
+      <div class="body">
+        <ul>
+          <li>Questa pagina non chiede mai password, credenziali, dati di accesso a sistemi ospedalieri, dati personali o dati dei pazienti. Se una pagina simile a questa te li chiede, non è questa pagina: chiudila.</li>
+          <li>Apri la pagina solo dal link ricevuto da una persona di cui ti fidi e controlla che l'indirizzo sia quello giusto.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><strong>Versioni di sperimentazione valide fino al 31/12/2026.</strong> Dal 1° gennaio 2027 questa pagina non sarà più disponibile.</span>
+    <span>Strumento non ufficiale di consultazione · Elenchi del Ministero della Salute (licenza CC BY-NC-ND 4.0) · Le ricerche restano sul tuo dispositivo · <a href="#legale">Note legali</a></span>
+    <span>Ultimo aggiornamento della pagina: 21/11/2026.</span>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
