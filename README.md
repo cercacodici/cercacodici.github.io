@@ -11,3 +11,6 @@ I file `dx.json`, `px.json`, `dxd.json`, `pxd.json` riproducono senza modifiche 
 Licenza dei dati: https://creativecommons.org/licenses/by-nc-nd/4.0/deed.it — uso non commerciale, nessuna modifica.
 
 Versioni di sperimentazione valide fino al 31/12/2026: dal 1° gennaio 2027 il sito non è più disponibile.
+
+## Sicurezza
+Il sito è statico: non raccoglie dati, non ha moduli né account e non chiede mai password o dati dei pazienti. Segnalazioni: peppapp.support@gmail.com
