@@ -95,14 +95,14 @@ tr.row:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
 .tablebox{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
 table{width:100%;border-collapse:collapse}
 thead th{background:var(--tint);color:var(--muted);text-align:left;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:10px 16px;font-weight:700;white-space:nowrap}
-td{padding:14px 16px;border-top:1px solid var(--line);vertical-align:baseline}
+td{padding:10px 16px;border-top:1px solid var(--line);vertical-align:baseline}
 tr.row.has{cursor:pointer}
 @media (hover:hover){tr.row:hover td{background:var(--tint)}}
 .c-code{width:1%;white-space:nowrap}
 .c-code .cc{display:flex;align-items:center;gap:12px}
 .c-code .code{display:inline-block;min-width:8.2ch}
-.code{font-family:var(--mono);font-weight:700;font-size:30px;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:0}
-.copy{min-height:44px;min-width:64px;font:inherit;font-size:15px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--ctl-line);border-radius:8px;padding:8px 14px;cursor:pointer}
+.code{font-family:var(--mono);font-weight:700;font-size:26px;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:0}
+.copy{min-height:44px;min-width:64px;font:inherit;font-size:15px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--ctl-line);border-radius:8px;padding:6px 14px;cursor:pointer}
 .copy:hover{color:var(--accent);border-color:var(--accent)}
 .c-old{width:1%;white-space:nowrap;font-family:var(--mono);font-size:15px;color:var(--muted)}
 .desc{min-width:0;overflow-wrap:anywhere;white-space:pre-wrap;tab-size:4;font-size:17px}
@@ -146,6 +146,7 @@ footer strong{color:var(--ink)}
 .closed{text-align:center;padding-block:80px}
 .closed h1{font-family:var(--display);font-weight:400;color:var(--accent)}
 
+@media (hover:hover) and (min-width:641px){.copy{min-height:36px}}
 @media (max-width:640px){
   body{font-size:16px}
   .theme button{padding:6px 12px;font-size:14px}
@@ -159,10 +160,10 @@ footer strong{color:var(--ink)}
   .field svg{left:13px;width:21px;height:21px}
   .btn{min-height:58px}
   .btn{padding:13px 16px}
-  .code{font-size:28px}
+  .code{font-size:25px}
   thead{display:none}
   table,tbody,tr,td{display:block;width:100%}
-  tr.row{border-top:1px solid var(--line);padding:12px 14px}
+  tr.row{border-top:1px solid var(--line);padding:9px 14px}
   tr.row:first-child{border-top:0}
   tr.row td{border:0;padding:0;background:transparent!important}
   .c-code{width:auto}
