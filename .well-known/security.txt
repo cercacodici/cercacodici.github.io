@@ -1,0 +1,4 @@
+Contact: mailto:peppapp.support@gmail.com
+Expires: 2027-01-01T00:00:00.000Z
+Preferred-Languages: it, en
+Canonical: https://cercacodici.github.io/.well-known/security.txt

@@ -2,12 +2,19 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src data:; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src data:; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noai, noimageai">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Codici ICD-10-IM e CIPI</title>
 <meta name="description" content="Ricerca dei codici ICD-10-IM (diagnosi) e CIPI (procedure) dagli elenchi ufficiali del Ministero della Salute, versioni di sperimentazione valide fino al 31/12/2026.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2E6656">
+<meta name="apple-mobile-web-app-title" content="Cerca codici">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -45,6 +52,10 @@
       </div>
       <p class="hint">Digita almeno 3 caratteri. Puoi cercare anche con il vecchio codice ICD-9-CM. Non inserire dati dei pazienti.<span class="tot" id="status">Caricamento degli elenchi ufficiali…</span></p>
     </form>
+    <div class="install" id="install" hidden>
+      <button class="install-btn" id="installBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 8v6M9.5 11.5 12 14l2.5-2.5"/></svg>Aggiungi alla schermata Home</button>
+      <p class="install-help" id="installHelp" hidden></p>
+    </div>
   </section>
 
   <section class="results wrap" id="results" hidden aria-live="polite">

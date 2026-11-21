@@ -1,5 +1,11 @@
 (function(){
   "use strict";
+  /* La pagina non deve essere mostrata dentro altri siti (protezione da pagine-esca). */
+  if (window.top !== window.self && /github\.io$/.test(location.hostname)){
+    document.documentElement.style.display = "none";
+    try { window.top.location = window.self.location.href; } catch(e){}
+    return;
+  }
   var root = document.documentElement;
 
   /* Tema Giorno / Notte */
@@ -19,6 +25,30 @@
 
   /* Scadenza: dal 1 gennaio 2027 (ora italiana) la pagina non mostra piu' i codici */
   var END = Date.UTC(2026,11,31,23,0,0);
+
+  /* App sul telefono: solo sul sito pubblicato */
+  (function(){
+    if (!/github\.io$/.test(location.hostname)) return;
+    if ("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(function(){}); }
+    var box = document.getElementById("install"), btn = document.getElementById("installBtn"), help = document.getElementById("installHelp");
+    if (!box) return;
+    var standalone = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+    if (standalone) return;
+    var deferred = null;
+    var ua = navigator.userAgent;
+    var isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var isMobile = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); deferred = e; box.hidden = false; });
+    window.addEventListener("appinstalled", function(){ box.hidden = true; });
+    if (isIOS || isMobile) box.hidden = false;
+    btn.addEventListener("click", function(){
+      if (deferred){ deferred.prompt(); deferred.userChoice.then(function(){ deferred = null; }); return; }
+      help.textContent = isIOS
+        ? "Tocca il pulsante Condividi (il quadrato con la freccia verso l'alto) e poi «Aggiungi alla schermata Home»."
+        : "Apri il menu del browser (i tre puntini ⋮) e scegli «Installa app» oppure «Aggiungi a schermata Home».";
+      help.hidden = !help.hidden;
+    });
+  })();
   function closeSite(){
     document.getElementById("app").innerHTML =
       '<section class="closed wrap"><h1>Servizio terminato</h1><p>Le versioni di sperimentazione ICD-10-IM e CIPI erano valide fino al 31/12/2026. Consulta gli elenchi aggiornati sul sito del Ministero della Salute.</p></section>';

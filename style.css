@@ -85,6 +85,12 @@ a{color:var(--accent)}
 tr.row:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
 .hint{margin:0;font-size:14px;color:var(--muted);text-align:center}
 .hint .tot{display:block}
+.install{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px}
+.install-btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;font:inherit;font-size:14px;font-weight:700;color:var(--accent);background:transparent;border:1px solid var(--ctl-line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.install-btn svg{width:17px;height:17px}
+.install-btn:hover{background:var(--tint)}
+.install-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.install-help{max-width:420px;margin:0;font-size:14px;color:var(--muted);text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
 
 /* Risultati */
 .results{padding-block:28px 8px}
